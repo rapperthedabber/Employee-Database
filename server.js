@@ -39,7 +39,7 @@ const ask =
         type: 'list',
         message: 'What would you like to do',
         name: 'choice',
-        choices: ['add employee', 'View all employees', 'add roles', 'view all roles', 'add department', 'view all departments', 'quit']
+        choices: ['add employee', 'View all employees', 'add roles', 'view all roles', 'add department', 'view all departments', 'view all managers' ,'quit']
     }
     ]
 
@@ -61,7 +61,15 @@ function questions() {
         } else if (answer.choice === 'view all departments') {
             console.log("you want to view all departments")
             viewDepartments();
-        }else{
+        }else if(answer.choice === 'add department'){
+            console.log('you want to add department');
+            addDepartment()
+        }else if(answer.choice === 'view all managers'){
+            console.log('you want to view managers');
+            viewManager();
+
+        }
+        else{
             quit()
         }
     })
@@ -131,6 +139,23 @@ async function viewDepartments() {
     questions();
 
 }
+async function addDepartment(){
+    const departmentResult = await db.query('SELECT * FROM department');
+    const departments = departmentResult.map(department => ({
+        value: department.id,
+        name: department.name
+    }))
+    const askDepartment = [{
+        type: 'input',
+        message: 'what is the name of the department',
+        name: 'department'
+    }]
+
+    const res = await inquirer.prompt(askDepartment)
+    await db.query(`INSERT INTO department(name) VALUES ('${res.department}')`)
+    console.log('successfully added department');
+    questions()
+}
 
 async function addRole() {
     const departmentResult = await db.query('SELECT * FROM department');
@@ -167,6 +192,17 @@ async function viewRole(){
 async function quit(){
     process.exit();
 }
+
+async function viewManager(){
+    const employeeResult = await db.query('SELECT * FROM employee');
+    const employees = employeeResult.map(employee => ({
+        value: employee.id,
+        name: `${employee.first_name} ${employee.last_name}`
+    }))
+
+    console.table(employees)
+}
+
 // db.query('SELECT SUM(quantity) AS total_in_section, MAX(quantity) AS max_quantity, MIN(quantity) AS min_quantity, AVG(quantity) AS avg_quantity FROM favorite_books GROUP BY section', function (err, results) {
 //   console.log(results);
 // });
