@@ -163,6 +163,10 @@ async function viewRole(){
     console.table(result);
     questions()
 }
+
+async function quit(){
+    process.exit();
+}
 // db.query('SELECT SUM(quantity) AS total_in_section, MAX(quantity) AS max_quantity, MIN(quantity) AS min_quantity, AVG(quantity) AS avg_quantity FROM favorite_books GROUP BY section', function (err, results) {
 //   console.log(results);
 // });
