@@ -1,4 +1,6 @@
 # Employee-Database
+![employee-tracker](https://user-images.githubusercontent.com/116526260/221011636-51e893b7-c6a3-40e5-90a7-a1b73a93b587.png)
+
  This application enables users to take notes and save it as reminder.
 
   ## Table of Contents 
